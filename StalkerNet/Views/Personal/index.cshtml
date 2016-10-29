@@ -1,0 +1,67 @@
+﻿@model IEnumerable<StalkerNet.Models.Person>
+
+@{
+    ViewBag.Title = "Person Index";
+
+    ViewBag.Message = "Find Individuals to Kill";
+}
+<h2>@ViewBag.Title</h2>
+<h3>@ViewBag.Message</h3>
+<hr />
+
+<p><b>
+    @Html.ActionLink("Create New Victim", "Create")
+</b></p>
+<table class="altrow-even" id="rowhighlights">
+    <tr>
+        <td class="tdheader">First
+            @*@Html.DisplayNameFor(model => model.firstname)*@
+        </td>
+        <td class="tdheader">Mid
+            @*@Html.DisplayNameFor(model => model.middlename)*@
+            </td>
+        <td class="tdheader">Last
+            @*@Html.DisplayNameFor(model => model.lastname)*@
+            </td>
+        <td class="tdheader">Cell
+            @*@Html.DisplayNameFor(model => model.cell)*@
+            </td>
+        <td class="tdheader">Relation
+            @*@Html.DisplayNameFor(model => model.relationship)*@
+            </td>
+        <td class="tdheader">Fam_id
+            @*@Html.DisplayNameFor(model => model.familyId)*@
+            </td>
+        <td class="tdheader">Options
+        </td>
+        </tr>
+
+    @foreach (var item in Model) {
+        <tr class="datas">
+            <td>
+                @Html.DisplayFor(modelItem => item.firstname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.middlename)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lastname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.cell)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.relationship)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.familyId)
+            </td>
+            <td class="options">
+                @Html.ActionLink("Edit", "Edit", new { id=item.id }) &nbsp;<span> &nbsp; &nbsp;| &nbsp; &nbsp;</span>
+                @Html.ActionLink("Details", "Details", new { id=item.id }) &nbsp;<span> &nbsp; &nbsp;| &nbsp; &nbsp;</span>
+                @Html.ActionLink("Delete", "Delete", new { id=item.id })
+            </td>
+        </tr>
+    }
+
+    </table>
