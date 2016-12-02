@@ -1,22 +1,19 @@
 ﻿@model StalkerNet.Models.Family
 
 @{
-    ViewBag.Title = "Edit";
-    ViewBag.Message = "Family";
+    ViewBag.Title = "Create";
 }
 
-<h2>@ViewBag.Title</h2>
-<h3>@ViewBag.Message</h3>
+<h2>Create</h2>
 
-@using (Html.BeginForm())
+@using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
+        <h4>Family</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.id)
-
         <div class="form-group">
             @Html.LabelFor(model => model.familyname, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
@@ -70,17 +67,17 @@
                 <script type="text/javascript">
         function SubmitForm() {
 
-    var r = confirm("Are you sure you want to edit family?");
+    var r = confirm("Are you sure you want to create family?");
     if (r == false) {
         return false;
     }
 }</script>
-                <input type="submit" value="Save" class="btn btn-default"  onclick="javascript: return SubmitForm();" />
+                <input type="submit" value="Create" class="btn btn-default" onclick="javascript: return SubmitForm();" />
             </div>
         </div>
     </div>
 }
 
-<div><b>
+<div>
     @Html.ActionLink("Back to List", "Index")
-</b></div>
+</div>

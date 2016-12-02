@@ -60,12 +60,19 @@
         </dd>
 
     </dl>
+    <script type="text/javascript">
+        function SubmitForm() {
 
+    var r = confirm("Are you sure you want to delete family?");
+    if (r == false) {
+        return false;
+    }
+}</script>
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /><b>
+            <input type="submit" value="Delete" class="btn btn-default"  onclick="javascript: return SubmitForm();" /><b>
     |
     @Html.ActionLink("Back to List", "Index")
 </b>

@@ -234,8 +234,7 @@ enwehr@gmail.com
 			margin: auto;
 			max-width: 997px;
 			background-color: #FF830C;
-			height: 50px;
-			}
+						}
 		@media (min-width: 550px){
 			.nav{
 			max-width: 997px;
@@ -703,3 +702,4 @@ input{
 legend{
 border: none;
 }
+

@@ -1,5 +1,5 @@
 ﻿$(document).ready(function () {
-
+    
     $(".mobileIcon").click(function () {
         var stat = $(".box").css('display');
         if (stat == 'block') {

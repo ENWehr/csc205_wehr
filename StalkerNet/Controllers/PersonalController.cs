@@ -1,15 +1,18 @@
-﻿using System;
+﻿using StalkerNet.Models;
+using StalkerNet.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using StalkerNet.Models;
+using System.Web.Routing;
 
 namespace StalkerNet.Controllers
 {
     public class PersonalController : Controller
     {
-        List<Person> people;
+        new public List<Person> people;
+
 
         public PersonalController()
         {
@@ -31,17 +34,26 @@ namespace StalkerNet.Controllers
             };
 
         }
-
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+            if (Session["peopleList"] == null)
+            {
+                Session["peopleList"] = people;
+            }
+        }
         // GET: Personal
         public ActionResult Index()
         {
-            return View(people);
+            var p = (List<Person>)Session["peopleList"];
+            return View(p);
         }
 
         // GET: Personal/Details/5
         public ActionResult Details(int id)
         {
-            var p = people[id];
+            var pList = (List<Person>)Session["peopleList"];
+            var p = pList[id];
             return View(p);
         }
 
@@ -57,7 +69,21 @@ namespace StalkerNet.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                people = (List<Person>)Session["peopleList"];
+                Person newPerson = new Person()
+                {
+                    id = people.Count(),
+                    firstname = collection["firstname"],
+                    middlename = collection["middlename"],
+                    lastname = collection["lastname"],
+                    cell = collection["cell"],
+                    relationship = collection["relationship"],
+                    familyId = int.Parse(collection["familyId"]
+                    )
+                };
+                people = (List<Person>)Session["peopleList"];
+                people.Add(newPerson);
+                Session["peopleList"] = people;
 
                 return RedirectToAction("Index");
             }
@@ -70,7 +96,8 @@ namespace StalkerNet.Controllers
         // GET: Personal/Edit/5
         public ActionResult Edit(int id)
         {
-            var p = people[id];
+            var pList = (List<Person>)Session["peopleList"];
+            var p = pList[id];
             return View(p);
         }
 
@@ -80,7 +107,26 @@ namespace StalkerNet.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                var pList = (List<Person>)Session["peopleList"];
+                var p = pList[id];
+
+                Person newPerson = new Person()
+                {
+                    id = id,
+                    firstname = collection["firstname"],
+                    middlename = collection["middlename"],
+                    lastname = collection["lastname"],
+                    cell = collection["cell"],
+                    relationship = collection["relationship"],
+                    familyId = int.Parse(collection["familyId"]
+                   )
+                };
+                pList.Where(x => x.id == id).First().firstname = collection["firstname"];
+                pList.Where(x => x.id == id).First().middlename = collection["middlename"];
+                pList.Where(x => x.id == id).First().lastname = collection["lastname"];
+                pList.Where(x => x.id == id).First().cell = collection["cell"];
+                pList.Where(x => x.id == id).First().relationship = collection["relationship"];
+                pList.Where(x => x.id == id).First().familyId = int.Parse(collection["familyId"]);
 
                 return RedirectToAction("Index");
             }
@@ -93,7 +139,8 @@ namespace StalkerNet.Controllers
         // GET: Personal/Delete/5
         public ActionResult Delete(int id)
         {
-            var p = people[id];
+            var pList = (List<Person>)Session["peopleList"];
+            var p = pList[id];
             return View(p);
         }
 
@@ -103,9 +150,19 @@ namespace StalkerNet.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                var pList = (List<Person>)Session["peopleList"];
+                var p = pList[id];
+
+                Session["peopleList"] = pList.Where(x => x.id != id).ToList();
+                    pList = (List<Person>)Session["peopleList"];
+                    for (int x = id; x < pList.Count(); x++)
+                    {
+                        if (pList[x] != null)
+                            pList[x].id = x;
+                    }
 
                 return RedirectToAction("Index");
+                
             }
             catch
             {

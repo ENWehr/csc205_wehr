@@ -1,16 +1,18 @@
-﻿using System;
+﻿using StalkerNet.Models;
+using StalkerNet.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using StalkerNet.Models;
+using System.Web.Routing;
 
 namespace StalkerNet.Controllers
 {
     public class FamilyController : Controller
     {
 
-        List<Family> families;
+        new public List<Family> families;
 
         public FamilyController()
         {
@@ -24,17 +26,26 @@ namespace StalkerNet.Controllers
 
 
         }
-
+        protected override void Initialize(RequestContext requestContext)
+        {
+            base.Initialize(requestContext);
+            if (Session["familyList"] == null)
+            {
+                Session["familyList"] = families;
+            }
+        }
         // GET: Family
         public ActionResult Index()
         {
-            return View(families);
+            var f = (List<Family>)Session["FamilyList"];
+            return View(f);
         }
 
         // GET: Family/Details/5
         public ActionResult Details(int id)
         {
-            var f = families[id];
+            var fList = (List<Family>)Session["familyList"];
+            var f = fList[id];
 
             return View(f);
         }
@@ -51,8 +62,22 @@ namespace StalkerNet.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                families = (List<Family>)Session["familyList"];
+                Family newFamily = new Family()
+                {
+                    id = families.Count(),
+                    familyname = collection["familyname"],
+                    address1 = collection["middlename"],
+                    city = collection["lastname"],
+                    state = collection["cell"],
+                    zip = collection["relationship"],
+                    homephone = collection["homephone"]
 
+                };
+
+                families = (List<Family>)Session["familyList"];
+                families.Add(newFamily);
+                Session["familyList"] = families;
                 return RedirectToAction("Index");
             }
             catch
@@ -64,7 +89,9 @@ namespace StalkerNet.Controllers
         // GET: Family/Edit/5
         public ActionResult Edit(int id)
         {
-            var f = families[id];
+            var fList = (List<Family>)Session["familyList"];
+            var f = fList[id];
+            //var f = families[id];
 
             return View(f);
         }
@@ -76,7 +103,29 @@ namespace StalkerNet.Controllers
             try
             {
                 // TODO: Add update logic here
+                var fList = (List<Family>)Session["familyList"];
 
+
+                var f = fList[id];
+
+                Family newFamily = new Family()
+                {
+                    id = id,
+                    familyname = collection["familyname"],
+                    address1 = collection["address1"],
+                    city = collection["city"],
+                    state = collection["state"],
+                    zip = collection["zip"],
+                    homephone = collection["homephone"]
+
+                };
+                fList.Where(x => x.id == id).First().familyname = collection["familyname"];
+                fList.Where(x => x.id == id).First().address1 = collection["address1"];
+                fList.Where(x => x.id == id).First().city = collection["city"];
+                fList.Where(x => x.id == id).First().state = collection["state"];
+                fList.Where(x => x.id == id).First().zip = collection["zip"];
+                fList.Where(x => x.id == id).First().homephone = collection["homephone"];
+                //Session["peopleList"] = pList.Where(x => x.id != id).ToList();
                 return RedirectToAction("Index");
             }
             catch
@@ -88,8 +137,8 @@ namespace StalkerNet.Controllers
         // GET: Family/Delete/5
         public ActionResult Delete(int id)
         {
-            var f = families[id];
-
+            var fList = (List<Family>)Session["familyList"];
+            var f = fList[id];
             return View(f);
         }
 
@@ -99,7 +148,21 @@ namespace StalkerNet.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                var fList = (List<Family>)Session["familyList"];
+
+
+                var f = fList[id];
+
+                Session["familyList"] = fList.Where(x => x.id != id).ToList();
+                fList = (List<Family>)Session["familyList"];
+                for(int x=id;x<fList.Count();x++)
+                {
+                    if (fList[x] != null)
+                        fList[x].id = x;
+                }
+
+
+
 
                 return RedirectToAction("Index");
             }
