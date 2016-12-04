@@ -45,29 +45,52 @@ namespace StalkerNet.Controllers
         // GET: Personal
         public ActionResult Index()
         {
-            var p = (List<Person>)Session["peopleList"];
+            if (Request.IsAuthenticated)
+            {
+                var p = (List<Person>)Session["peopleList"];
             return View(p);
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Personal/Details/5
         public ActionResult Details(int id)
         {
-            var pList = (List<Person>)Session["peopleList"];
+            if (Request.IsAuthenticated)
+            {
+                var pList = (List<Person>)Session["peopleList"];
             var p = pList[id];
             return View(p);
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Personal/Create
         public ActionResult Create()
         {
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // POST: Personal/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
+            {
+                try
             {
                 people = (List<Person>)Session["peopleList"];
                 Person newPerson = new Person()
@@ -91,21 +114,35 @@ namespace StalkerNet.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Personal/Edit/5
         public ActionResult Edit(int id)
         {
-            var pList = (List<Person>)Session["peopleList"];
+            if (Request.IsAuthenticated)
+            {
+                var pList = (List<Person>)Session["peopleList"];
             var p = pList[id];
             return View(p);
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // POST: Personal/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
+            {
+                try
             {
                 var pList = (List<Person>)Session["peopleList"];
                 var p = pList[id];
@@ -134,21 +171,35 @@ namespace StalkerNet.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Personal/Delete/5
         public ActionResult Delete(int id)
         {
-            var pList = (List<Person>)Session["peopleList"];
+            if (Request.IsAuthenticated)
+            {
+                var pList = (List<Person>)Session["peopleList"];
             var p = pList[id];
             return View(p);
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // POST: Personal/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
+            {
+                try
             {
                 var pList = (List<Person>)Session["peopleList"];
                 var p = pList[id];
@@ -167,6 +218,11 @@ namespace StalkerNet.Controllers
             catch
             {
                 return View();
+            }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
             }
         }
     }

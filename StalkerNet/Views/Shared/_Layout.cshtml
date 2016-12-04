@@ -37,6 +37,11 @@
                 <div class="center">
                     <a href="http://localhost:53460/Home/index"> <img alt="StalkerNet Logo" class="bannerImage" src="~/Content/images/transparent_text_effect.png" /></a> <br />
                     <p><i><b>Helping Killers since '94</b></i></p>
+                    @if (Request.IsAuthenticated)
+                    {
+
+                        <p><i><b>Welcome back, @User.Identity.Name</b></i></p>
+                    }
                 </div>
             </div>
         </div>
@@ -58,11 +63,23 @@
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Family", "Index", "Family")</li>
-                    <li>@Html.ActionLink("Personal", "Index", "Personal")</li>
-                    <li>
-                        @Html.Partial("_LoginPartial")
-                    </li>
+                    <li style="width: 45px; height: 2px"} ">&nbsp;</li>
+              
+                        @if (Request.IsAuthenticated)
+                        {
+                            <li style="font-style:  italic; text-decoration: underline;">@Html.ActionLink("Family", "Index", "Family")</li>
+                            <li style="font-style:  italic; text-decoration: underline;">@Html.ActionLink("Personal", "Index", "Personal")</li>
+                            <li style="font-style:  italic; text-decoration: underline;">@Html.ActionLink("Logout", "Logout", "Login")</li>
+                        }
+                        else
+                        {
+
+
+                            <li>@Html.ActionLink("Register", "Register", "Account")</li>
+                            <li>@Html.ActionLink("Log in", "Login", "Login")</li>
+
+                        }
+                   
                 </ul>
                
             </div>
@@ -91,7 +108,7 @@
             <div class="container nopad">
                 <div class="row">
                     <div class="twelve columns">
-                        <figure class="u-pull-left"><img alt="Stalk Smile" class="icon" src="~/Content/images/LBcm3rg.png" /></figure>
+                        <figure class="u-pull-left"><img alt="Stalk Smile" class="icon" src="/Content/images/LBcm3rg.png" /></figure>
                         <p class="iconMar"><i>Stalking ...<span style="display: block;">So Fun</span><span style="display: block;">Please dont kill me</span><br /><span style="display: block;">Dont call 911 &#169;</span></i></p>
                     </div>
                 </div>

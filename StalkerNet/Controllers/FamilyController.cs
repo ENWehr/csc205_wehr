@@ -6,7 +6,6 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-
 namespace StalkerNet.Controllers
 {
     public class FamilyController : Controller
@@ -37,30 +36,54 @@ namespace StalkerNet.Controllers
         // GET: Family
         public ActionResult Index()
         {
-            var f = (List<Family>)Session["FamilyList"];
-            return View(f);
+            if (Request.IsAuthenticated)
+            {
+                var f = (List<Family>)Session["FamilyList"];
+                return View(f);
+
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Family/Details/5
         public ActionResult Details(int id)
         {
-            var fList = (List<Family>)Session["familyList"];
+            if (Request.IsAuthenticated)
+            {
+                var fList = (List<Family>)Session["familyList"];
             var f = fList[id];
 
             return View(f);
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Family/Create
         public ActionResult Create()
         {
-            return View();
+            if (Request.IsAuthenticated)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // POST: Family/Create
         [HttpPost]
         public ActionResult Create(FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
+            {
+                try
             {
                 families = (List<Family>)Session["familyList"];
                 Family newFamily = new Family()
@@ -84,23 +107,37 @@ namespace StalkerNet.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Family/Edit/5
         public ActionResult Edit(int id)
         {
-            var fList = (List<Family>)Session["familyList"];
+            if (Request.IsAuthenticated)
+            {
+                var fList = (List<Family>)Session["familyList"];
             var f = fList[id];
             //var f = families[id];
 
             return View(f);
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // POST: Family/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
+            {
+                try
             {
                 // TODO: Add update logic here
                 var fList = (List<Family>)Session["familyList"];
@@ -132,21 +169,35 @@ namespace StalkerNet.Controllers
             {
                 return View();
             }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // GET: Family/Delete/5
         public ActionResult Delete(int id)
         {
-            var fList = (List<Family>)Session["familyList"];
+            if (Request.IsAuthenticated)
+            {
+                var fList = (List<Family>)Session["familyList"];
             var f = fList[id];
             return View(f);
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
+            }
         }
 
         // POST: Family/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
-            try
+            if (Request.IsAuthenticated)
+            {
+                try
             {
                 var fList = (List<Family>)Session["familyList"];
 
@@ -169,6 +220,11 @@ namespace StalkerNet.Controllers
             catch
             {
                 return View();
+            }
+            }
+            else
+            {
+                return RedirectToAction("Register", "Account");
             }
         }
     }
